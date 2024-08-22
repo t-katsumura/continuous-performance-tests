@@ -1,0 +1,20 @@
+name: pages
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  limited-cpu50:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      - run: cd ./docs/http-proxy/limited/
+      - run: docker compose --file=docker-compose-cpu50.yaml up
+      - run: docker ps -a
