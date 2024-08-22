@@ -16,6 +16,6 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
       - run: |
-          cd ./continuous-performance-tests/docs/http-proxy/limited/
+          cd ./docs/http-proxy/limited/
           docker compose --file=docker-compose-cpu50.yaml up
       - run: docker ps -a
