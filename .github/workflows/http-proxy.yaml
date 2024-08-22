@@ -15,7 +15,11 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-      - run: |
+      - name: Run Containers
+        run: |
           cd ./docs/http-proxy/limited/
-          docker compose --file=docker-compose-cpu50.yaml up
+          docker compose --file=docker-compose-cpu50.yaml up -d
+          curl --max-time 60 localhost:12345 -v
       - run: docker ps -a
+      - uses: grafana/setup-k6-action@v1
+      - run: k6 -v
