@@ -19,7 +19,7 @@ jobs:
         run: |
           cd ./docs/http-proxy/limited/
           docker compose --file=docker-compose-cpu50.yaml up -d
-          curl --max-time 60 localhost:12345 -v
+          for i in {1..20}; do curl --max-time 5 localhost:12345 && break; done
       - run: docker ps -a
       - uses: grafana/setup-k6-action@v1
       - run: k6 -v
