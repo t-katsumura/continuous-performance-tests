@@ -1,0 +1,45 @@
+name: k6-limited
+
+on:
+  workflow_call:
+
+env:
+  SCRIPT_DIR: "${{ github.workspace }}/script"
+  LIMITED_DIR: "${{ github.workspace }}/docs/http-proxy/limited"
+
+jobs:
+  limited:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ env.LIMITED_DIR }}
+    steps:
+      - name: Run Containers
+        run: |
+          docker compose --file=docker-compose-50m.yaml up -d
+          sleep 10
+          for i in {1..20}; do curl -v --max-time 5 localhost:12345 && break; done
+      - run: docker ps -a
+      - run: |
+          cd ${{ env.SCRIPT_DIR }}
+          chmod +x ./docker_stats.sh
+          ./docker_stats.sh &
+          sleep 10
+      - uses: grafana/setup-k6-action@v1
+      - run: |
+          cd ${{ env.SCRIPT_DIR }}
+          k6 run k6_script.js -q --no-thresholds
+      - run: |
+          cd ${{ env.SCRIPT_DIR }}
+          sleep 10
+          pid=$(cat docker_stats.pid)
+          kill -15 ${pid}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: result
+          if-no-files-found: error
+          path: |
+            ${{ env.SCRIPT_DIR }}/docker_stats_raw.csv
+            ${{ env.SCRIPT_DIR }}/docker_stats.csv
+            ${{ env.SCRIPT_DIR }}/k6_summery.json
