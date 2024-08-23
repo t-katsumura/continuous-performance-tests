@@ -33,6 +33,7 @@ jobs:
       - run: docker ps -a
       - run: |
           cp $DOCKER_STATS_SHELL ./
+          git update-index --chmod=+x ./docker_stats.sh
           ./docker_stats.sh &
           sleep 10
       - uses: grafana/setup-k6-action@v1
