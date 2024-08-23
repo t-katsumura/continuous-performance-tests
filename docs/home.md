@@ -5,7 +5,7 @@
   width="100%"
   height="500"
   frameborder="0"
-  src="/aileron-website/foo.html">
+  src="/aileron-website/graph/foo.html">
 </iframe>
 
 <iframe
@@ -14,5 +14,5 @@
   width="100%"
   height="500"
   frameborder="0"
-  src="/aileron-website/table.html?f=">
+  src="/aileron-website/graph/table.html">
 </iframe>

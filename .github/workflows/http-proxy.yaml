@@ -6,9 +6,13 @@ on:
       - master
       - main
 
+env:
+  WORK_DIR: "./docs/http-proxy/limited/"
+
 jobs:
   limited-cpu50:
     runs-on: ubuntu-latest
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
       - name: Configure Git Credentials
@@ -17,9 +21,13 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
       - name: Run Containers
         run: |
-          cd ./docs/http-proxy/limited/
+          cd $WORK_DIR
           docker compose --file=docker-compose-cpu50.yaml up -d
+          sleep 10
           for i in {1..20}; do curl --max-time 5 localhost:12345 && break; done
       - run: docker ps -a
       - uses: grafana/setup-k6-action@v1
-      - run: k6 -v
+      - run: |
+          cd $WORK_DIR
+          k6 -v
+          k6 run k6_script.js

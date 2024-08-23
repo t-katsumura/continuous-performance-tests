@@ -1,18 +1,10 @@
 import http from 'k6/http';
-import { textSummary } from 'https://jslib.k6.io/k6-summary/0.1.0/index.js';
-// import { Counter, Trend, Gauge, Rate } from 'k6/metrics';
-
-// const myCounter = new Counter('my_counter');
-// const myTrend = new Trend('my_trend');
-// const myGauge = new Gauge('my_gauge');
-// const errorRate = new Rate('errorRate');
-
-import {countStatus} from './common.js'
+import {countStatus} from '../../../k6/status.js'
 
 export const options = {
-  vus: 1000,
-  duration: '1200s',
-  // rps: 10000,
+  vus: 100,
+  duration: '2h',
+  // rps: 1000,
   summaryTimeUnit: 'ms',
   summaryTrendStats: [ // min=p(0), med=p(50), max=p(100)
     'count', 'avg',
@@ -39,18 +31,16 @@ export const options = {
     'p(99.5)', 'p(99.9)', 'p(99.99)', 'p(99.999)', 'p(100)'
   ],
   discardResponseBodies: true,
+  noThresholds: true,
 };
 
 export default function () {
-
-  const res = http.get(`http://localhost:8080`);
+  const res = http.get(`http://localhost:12345`);
   countStatus[res.status].add(res.timings.duration)
-
 }
 
 export function handleSummary(data) {
   return {
-    'stdout': textSummary(data, { indent: ' ', enableColors: true }),
     'summery.json': JSON.stringify(data),
   };
 }
