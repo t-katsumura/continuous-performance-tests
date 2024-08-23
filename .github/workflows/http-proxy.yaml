@@ -57,6 +57,7 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           name: "limited"
+          tag_name: "limited"
           files: |
             ${{ env.LIMITED_DIR }}/docker_stats_raw.csv
             ${{ env.LIMITED_DIR }}/docker_stats.csv
