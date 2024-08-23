@@ -7,27 +7,45 @@ on:
       - main
 
 env:
-  WORK_DIR: "./docs/http-proxy/limited/"
+  SCRIPT_DIR: "${{ github.workspace }}/script/"
+  WORK_DIR: "${{ github.workspace }}/docs/http-proxy/limited/"
 
 jobs:
-  limited-cpu50:
+  limited:
     runs-on: ubuntu-latest
     timeout-minutes: 180
+    defaults:
+      run:
+        shell: bash
+        working-directory: "${{ github.workspace }}/docs/http-proxy/limited/"
     steps:
       - uses: actions/checkout@v4
       - name: Configure Git Credentials
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+
       - name: Run Containers
         run: |
-          cd $WORK_DIR
-          docker compose --file=docker-compose-cpu50.yaml up -d
+          docker compose --file=docker-compose-50m.yaml up -d
           sleep 10
           for i in {1..20}; do curl --max-time 5 localhost:12345 && break; done
       - run: docker ps -a
-      - uses: grafana/setup-k6-action@v1
       - run: |
-          cd $WORK_DIR
-          k6 -v
-          k6 run k6_script.js -q
+          cp $SCRIPT_DIR/docker_stats.sh
+          ./docker_stats.sh &
+          sleep 10
+      - uses: grafana/setup-k6-action@v1
+      - run: k6 -v
+      - run: k6 run k6_script.js -q --no-thresholds
+      - run: |
+          sleep 10
+          pid=$(cat docker_stats.pid)
+          kill -15 $(pid)
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            ./docker_stats_raw.csv
+            ./docker_stats.csv
+            ./k6_summery.json

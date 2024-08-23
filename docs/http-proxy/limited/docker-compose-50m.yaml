@@ -15,15 +15,7 @@ services:
           cpus: '0.05'
           memory: 50M
 
-  upstream1:
+  upstream:
     image: istio/fortio:latest
     container_name: upstream1
-    restart: always
-  upstream2:
-    image: istio/fortio:latest
-    container_name: upstream2
-    restart: always
-  upstream3:
-    image: istio/fortio:latest
-    container_name: upstream3
     restart: always

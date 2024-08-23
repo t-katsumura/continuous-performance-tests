@@ -1,10 +1,10 @@
 import http from 'k6/http';
-import {countStatus} from '../../../k6/status.js'
+import {countStatus} from '../../../script/k6_status.js'
 
 export const options = {
-  vus: 100,
-  duration: '2h',
-  // rps: 1000,
+  vus: 25,  // 25 virtual users.
+  rps: 100, // 4 requests per 1 user.
+  duration: '60s',
   summaryTimeUnit: 'ms',
   summaryTrendStats: [ // min=p(0), med=p(50), max=p(100)
     'count', 'avg',
@@ -31,7 +31,6 @@ export const options = {
     'p(99.5)', 'p(99.9)', 'p(99.99)', 'p(99.999)', 'p(100)'
   ],
   discardResponseBodies: true,
-  noThresholds: true,
 };
 
 export default function () {
@@ -41,6 +40,6 @@ export default function () {
 
 export function handleSummary(data) {
   return {
-    'summery.json': JSON.stringify(data),
+    'k6_summery.json': JSON.stringify(data),
   };
 }

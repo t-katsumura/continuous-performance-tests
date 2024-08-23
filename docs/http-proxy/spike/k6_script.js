@@ -31,7 +31,6 @@ export const options = {
     'p(99.5)', 'p(99.9)', 'p(99.99)', 'p(99.999)', 'p(100)'
   ],
   discardResponseBodies: true,
-  noThresholds: true,
 };
 
 export default function () {
