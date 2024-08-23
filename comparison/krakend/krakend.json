@@ -1,0 +1,32 @@
+{
+    "$schema": "https://www.krakend.io/schema/v2.5/krakend.json",
+    "version": 3,
+    "name": "My lovely gateway",
+    "port": 8080,
+    "endpoints": [
+        {
+            "endpoint": "/",
+            "method": "GET",
+            "backend": [
+                {
+                    "encoding": "no-op",
+                    "host": [
+                        "http://upstream1:8080",
+                        "http://upstream2:8080",
+                        "http://upstream3:8080",
+                        "http://upstream4:8080",
+                        "http://upstream5:8080"
+                    ],
+                    "url_pattern": "/"
+                }
+            ]
+        }
+    ],
+    "extra_config": {
+        "router": {
+            "logger_skip_paths": [
+                "/"
+            ]
+        }
+    }
+}

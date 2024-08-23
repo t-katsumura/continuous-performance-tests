@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  gateway:
+    image: envoyproxy/envoy:v1.31-latest
+    container_name: gateway
+    restart: always
+    ports:
+      - 12345:10000
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 100M
+
+  upstream1:
+    image: istio/fortio:latest
+    container_name: upstream1
+    restart: always
+  upstream2:
+    image: istio/fortio:latest
+    container_name: upstream2
+    restart: always
+  upstream3:
+    image: istio/fortio:latest
+    container_name: upstream3
+    restart: always
+  upstream4:
+    image: istio/fortio:latest
+    container_name: upstream4
+    restart: always
+  upstream5:
+    image: istio/fortio:latest
+    container_name: upstream5
+    restart: always

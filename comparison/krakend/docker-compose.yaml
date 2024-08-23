@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  gateway:
+    image: devopsfaith/krakend:latest
+    container_name: gateway
+    restart: always
+    ports:
+      - 12345:8080
+    command: ["run", "--config", "krakend.json"]
+    volumes:
+      - ./krakend.json:/etc/krakend/krakend.json
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 100M
+
+  upstream1:
+    image: istio/fortio:latest
+    container_name: upstream1
+    restart: always
+  upstream2:
+    image: istio/fortio:latest
+    container_name: upstream2
+    restart: always
+  upstream3:
+    image: istio/fortio:latest
+    container_name: upstream3
+    restart: always
+  upstream4:
+    image: istio/fortio:latest
+    container_name: upstream4
+    restart: always
+  upstream5:
+    image: istio/fortio:latest
+    container_name: upstream5
+    restart: always
