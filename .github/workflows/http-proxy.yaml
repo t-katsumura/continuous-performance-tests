@@ -47,6 +47,6 @@ jobs:
           name: result
           if-no-files-found: error
           path: |
-            ${LIMITED_DIR}/docker_stats_raw.csv
-            ${LIMITED_DIR}/docker_stats.csv
-            ${LIMITED_DIR}/k6_summery.json
+            ${{ env.LIMITED_DIR }}/docker_stats_raw.csv
+            ${{ env.LIMITED_DIR }}/docker_stats.csv
+            ${{ env.LIMITED_DIR }}/k6_summery.json
