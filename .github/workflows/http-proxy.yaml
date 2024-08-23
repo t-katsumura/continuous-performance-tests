@@ -7,8 +7,8 @@ on:
       - main
 
 env:
-  SCRIPT_DIR: "${{ github.workspace }}script/"
-  DOCKER_STATS_SHELL: "${{ github.workspace }}script/docker_stats.sh"
+  SCRIPT_DIR: "${{ github.workspace }}/script"
+  DOCKER_STATS_SHELL: "${{ github.workspace }}/script/docker_stats.sh"
 
 jobs:
   limited:
