@@ -17,7 +17,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${LIMITED_DIR}
+        working-directory: ${{ env.LIMITED_DIR }}
     steps:
       - uses: actions/checkout@v4
       - name: Configure Git Credentials
