@@ -90,6 +90,21 @@
 <body>
     <div id="chartContainer" style="height: 370px; width: 100%;"></div>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+    <script>
+        const url = 'https://raw.github.com/t-katsumura/continuous-performance-tests/main/docs/http-proxy/limited/nginx.conf';
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+            const text = await response.text();
+            console.log(text);
+        } catch (error) {
+            console.error(error.message);
+        }
+
+    </script>
 </body>
 
 </html>

@@ -74,5 +74,5 @@ markdown_extensions:
 
 nav:
   - Home: home.md
-  - foo: foo.html
-  - table: table.html
+  - foo: graph/foo.html
+  - table: graph/table.html
