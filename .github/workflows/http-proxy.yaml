@@ -41,7 +41,7 @@ jobs:
       - run: |
           sleep 10
           pid=$(cat docker_stats.pid)
-          kill -15 $(pid)
+          kill -15 ${pid}
       - uses: actions/upload-artifact@v2
         with:
           name: dist
