@@ -30,4 +30,4 @@ jobs:
       - run: |
           cd $WORK_DIR
           k6 -v
-          k6 run k6_script.js
+          k6 run k6_script.js -q
