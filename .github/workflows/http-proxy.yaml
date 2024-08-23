@@ -10,6 +10,7 @@ env:
   SCRIPT_DIR: "${{ github.workspace }}/script"
   DOCKER_STATS_SHELL: "${{ github.workspace }}/script/docker_stats.sh"
   LIMITED_DIR: "${{ github.workspace }}/docs/http-proxy/limited"
+
 jobs:
   limited:
     runs-on: ubuntu-latest
