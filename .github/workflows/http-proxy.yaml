@@ -7,8 +7,8 @@ on:
       - main
 
 env:
-  SCRIPT_DIR: "${{ github.workspace }}/script/"
-  WORK_DIR: "${{ github.workspace }}/docs/http-proxy/limited/"
+  SCRIPT_DIR: "${{ github.workspace }}script/"
+  DOCKER_STATS_SHELL: "${{ github.workspace }}script/docker_stats.sh"
 
 jobs:
   limited:
@@ -17,7 +17,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: "${{ github.workspace }}/docs/http-proxy/limited/"
+        working-directory: "${{ github.workspace }}docs/http-proxy/limited/"
     steps:
       - uses: actions/checkout@v4
       - name: Configure Git Credentials
@@ -32,11 +32,10 @@ jobs:
           for i in {1..20}; do curl --max-time 5 localhost:12345 && break; done
       - run: docker ps -a
       - run: |
-          cp $SCRIPT_DIR/docker_stats.sh
+          cp $DOCKER_STATS_SHELL ./
           ./docker_stats.sh &
           sleep 10
       - uses: grafana/setup-k6-action@v1
-      - run: k6 -v
       - run: k6 run k6_script.js -q --no-thresholds
       - run: |
           sleep 10
