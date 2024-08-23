@@ -93,15 +93,19 @@
 
     <script>
         const url = 'https://raw.github.com/t-katsumura/continuous-performance-tests/main/docs/http-proxy/limited/nginx.conf';
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
+
+        async function fetchText(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                const text = await response.text();
+                console.log(text);
+            } catch (e) {
+                console.error(e);
             }
-            const text = await response.text();
-            console.log(text);
-        } catch (error) {
-            console.error(error.message);
         }
 
     </script>
