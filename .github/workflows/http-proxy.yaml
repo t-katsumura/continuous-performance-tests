@@ -6,6 +6,9 @@ on:
       - master
       - main
 
+permissions:
+  contents: write
+
 env:
   SCRIPT_DIR: "${{ github.workspace }}/script"
   DOCKER_STATS_SHELL: "${{ github.workspace }}/script/docker_stats.sh"
@@ -48,6 +51,13 @@ jobs:
           name: result
           if-no-files-found: error
           path: |
+            ${{ env.LIMITED_DIR }}/docker_stats_raw.csv
+            ${{ env.LIMITED_DIR }}/docker_stats.csv
+            ${{ env.LIMITED_DIR }}/k6_summery.json
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: "limited"
+          files: |
             ${{ env.LIMITED_DIR }}/docker_stats_raw.csv
             ${{ env.LIMITED_DIR }}/docker_stats.csv
             ${{ env.LIMITED_DIR }}/k6_summery.json
