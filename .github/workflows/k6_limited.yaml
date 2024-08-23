@@ -15,6 +15,7 @@ jobs:
         shell: bash
         working-directory: ${{ env.LIMITED_DIR }}
     steps:
+      - uses: actions/checkout@v4
       - name: Run Containers
         run: |
           docker compose --file=docker-compose-50m.yaml up -d
